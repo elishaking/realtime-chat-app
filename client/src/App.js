@@ -13,8 +13,12 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    socket.on("count", (count) => {
-      this.setState({ count });
+    this.user = prompt("Whats your name", "Jim");
+
+    socket.on("chat-msg", (message) => {
+      const { messages } = this.state;
+      messages.push(message);
+      this.setState({ messages });
     });
   }
 
@@ -29,11 +33,12 @@ export default class App extends Component {
 
     const { messages, messageText } = this.state;
     const newMessage = {
+      user: this.user,
       text: messageText,
       date: Date.now()
     }
 
-    socket.emit('chat-msg', newMessage);
+    socket.emit('send-chat-msg', newMessage);
     messages.push(newMessage);
 
     this.setState({ messageText: '', messages });
@@ -50,9 +55,16 @@ export default class App extends Component {
         <div className="chat-container">
           <div className="chat-space">
             {
-              messages.map((message) => (
-                <div className="message">
-                  <p>{message.text}</p>
+              messages.map((message, index) => (
+                <div key={index} className="message" style={{
+                  backgroundColor: this.user !== message.user && "rgba(0, 0, 0, 0.3)"
+                }}>
+                  <p>
+                    {
+                      this.user !== message.user && (<strong>{message.user} &nbsp;</strong>)
+                    }
+                    <span>{message.text}</span>
+                  </p>
                   <p className="date"><small>{new Date(message.date).toLocaleTimeString()}</small></p>
                 </div>
               ))
