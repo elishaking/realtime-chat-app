@@ -8,7 +8,8 @@ const socket = openSocket("http://192.168.43.45:8000");
 export default class App extends Component {
   state = {
     count: 0,
-    messageText: ''
+    messageText: '',
+    messages: []
   };
 
   componentDidMount() {
@@ -26,13 +27,20 @@ export default class App extends Component {
   sendMessage = (e) => {
     e.preventDefault();
 
-    socket.emit('chat-msg', this.state.messageText);
+    const { messages, messageText } = this.state;
+    const newMessage = {
+      text: messageText,
+      date: Date.now()
+    }
 
-    this.setState({ messageText: '' });
+    socket.emit('chat-msg', newMessage);
+    messages.push(newMessage);
+
+    this.setState({ messageText: '', messages });
   };
 
   render() {
-    const { messageText } = this.state;
+    const { messageText, messages } = this.state;
 
     return (
       <div className="app">
@@ -41,7 +49,14 @@ export default class App extends Component {
 
         <div className="chat-container">
           <div className="chat-space">
-
+            {
+              messages.map((message) => (
+                <div className="message">
+                  <p>{message.text}</p>
+                  <p className="date"><small>{new Date(message.date).toLocaleTimeString()}</small></p>
+                </div>
+              ))
+            }
           </div>
 
           <div className="chat-input">

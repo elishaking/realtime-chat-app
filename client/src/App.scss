@@ -9,6 +9,25 @@
     width: 80vw;
     height: fill-available;
     max-width: 500px;
+
+    .message {
+      padding: 1em 2em;
+      background-color: rgba($color: #000000, $alpha: 0.2);
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+
+      .date {
+        text-align: end;
+
+        small {
+          font-size: 70%;
+          color: gray;
+        }
+      }
+    }
   }
 
   .chat-input {
