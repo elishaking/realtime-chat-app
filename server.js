@@ -3,12 +3,9 @@ const io = require('socket.io');
 const server = io();
 
 server.on("connection", (socket) => {
-  socket.emit('chat-msg', "Hello");
-
-  let i = 0;
-  setInterval(() => {
-    socket.emit('count', `count: ${i++}`);
-  }, 3000);
+  socket.on('chat-msg', (message) => {
+    console.log(message);
+  })
 });
 
 server.listen(8000);

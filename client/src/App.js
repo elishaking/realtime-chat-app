@@ -24,6 +24,8 @@ export default class App extends Component {
   };
 
   sendMessage = (e) => {
+    e.preventDefault();
+
     socket.emit('chat-msg', this.state.messageText);
 
     this.setState({ messageText: '' });
