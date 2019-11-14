@@ -9,6 +9,7 @@ export default class App extends Component {
   state = {
     count: 0,
     messageText: '',
+    typing: '',
     messages: []
   };
 
@@ -20,12 +21,28 @@ export default class App extends Component {
       messages.push(message);
       this.setState({ messages });
     });
+
+    socket.on('is-typing', (userName) => {
+      this.setState({ typing: userName });
+    });
+
+    socket.on('stopped-typing', (userName) => {
+      this.setState({ typing: '' });
+    });
   }
 
   onChange = (e) => {
     this.setState({
       messageText: e.target.value
     });
+  };
+
+  isTyping = (e) => {
+    socket.emit("send-is-typing", this.user);
+  };
+
+  stoppedTyping = (e) => {
+    socket.emit("send-stopped-typing", this.user);
   };
 
   sendMessage = (e) => {
@@ -45,7 +62,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { messageText, messages } = this.state;
+    const { messageText, messages, typing } = this.state;
 
     return (
       <div className="app">
@@ -71,9 +88,15 @@ export default class App extends Component {
             }
           </div>
 
+          <div className="is-typing">
+            {
+              typing !== '' && <p>{typing} is Typing</p>
+            }
+          </div>
+
           <div className="chat-input">
             <form id="form" onSubmit={this.sendMessage}>
-              <input type="text" placeholder="Type message" value={messageText} onChange={this.onChange} />
+              <input type="text" placeholder="Type message" value={messageText} onChange={this.onChange} onFocus={this.isTyping} onBlur={this.stoppedTyping} />
               <input type="submit" value="Send" />
             </form>
           </div>
