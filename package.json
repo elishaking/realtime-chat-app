@@ -1,0 +1,26 @@
+{
+  "name": "realtime-chat-app",
+  "version": "1.0.0",
+  "description": "A simple realtime chat app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elishaking/realtime-chat-app.git"
+  },
+  "keywords": [
+    "Realtime",
+    "Chat"
+  ],
+  "author": "King Elisha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elishaking/realtime-chat-app/issues"
+  },
+  "homepage": "https://github.com/elishaking/realtime-chat-app#readme",
+  "dependencies": {
+    "socket.io": "^2.3.0"
+  }
+}
