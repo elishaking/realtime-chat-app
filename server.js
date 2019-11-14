@@ -2,7 +2,7 @@ const io = require('socket.io');
 
 const server = io();
 
-server.onconnection((socket) => {
+server.on("connection", (socket) => {
   socket.emit('chat-msg', "Hello");
 
   let i = 0;
