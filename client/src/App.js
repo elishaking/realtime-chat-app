@@ -74,7 +74,9 @@ export default class App extends Component {
             {
               messages.map((message, index) => (
                 <div key={index} className="message" style={{
-                  backgroundColor: this.user !== message.user && "rgba(0, 0, 0, 0.3)"
+                  backgroundColor: this.user !== message.user && "rgba(0, 0, 0, 0.3)",
+                  marginLeft: this.user !== message.user && "auto",
+                  borderRadius: this.user !== message.user ? "100px 0 100px 100px" : "0 100px 100px 100px"
                 }}>
                   <p>
                     {
